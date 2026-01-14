@@ -1,9 +1,15 @@
 package hello.thymeleaf.basic;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("/basic")
@@ -20,4 +26,33 @@ public class BasicController {
         model.addAttribute("data", "<b>Hello Spring</b>");
         return "basic/text-unescaped";
     }
+
+
+    @GetMapping("variable")
+    public String variable(Model model){
+        User userA = new User("userA", 10);
+        User userB = new User("userB", 20);
+
+        ArrayList<User> list = new ArrayList<>();
+        list.add(userA);
+        list.add(userB);
+
+        HashMap<String, User> map = new HashMap<>();
+        map.put("userA", userA);
+        map.put("userB", userB);
+
+        model.addAttribute("user", userA);
+        model.addAttribute("users", list);
+        model.addAttribute("userMap", map);
+
+        return "basic/variable";
+    }
+
+    @AllArgsConstructor
+    @Getter @Setter
+    static class User{
+        private String username;
+        private int age;
+    }
+
 }
